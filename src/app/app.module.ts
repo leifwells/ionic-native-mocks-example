@@ -8,6 +8,17 @@ import { ListPage } from '../pages/list/list';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { SplashScreenMock } from '@ionic-native-mocks/splash-screen';
+
+export function getSplashScreenClass() {
+  if(!window['cordova']) {
+    console.log('mock');
+    return new SplashScreenMock();
+  } else {
+    console.log('cordova');
+    return new SplashScreen();
+  }
+}
 
 @NgModule({
   declarations: [
@@ -27,7 +38,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   ],
   providers: [
     StatusBar,
-    SplashScreen,
+    // SplashScreen,
+    { provide: 'SplashScreen', useFactory: getSplashScreenClass },
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
